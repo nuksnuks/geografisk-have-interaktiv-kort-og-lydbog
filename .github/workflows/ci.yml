@@ -29,9 +29,6 @@ jobs:
     - name: Install Firebase CLI
       run: npm install -g firebase-tools
 
-    - name: Copy manifest.json
-      run: cp ../../manifest.json dist/manifest.json
-
     - name: Test
       env:
         VITE_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
