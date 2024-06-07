@@ -1,10 +1,13 @@
 {
   "projects": {
-    "default": "geografisk-have-kort-og-lydbog"
+    "default": "geografisk-have-interaktiv-kort-og-lydbog"
   },
   "targets": {},
   "etags": {
     "geografisk-have-kort-og-lydbog": {
+      "extensionInstances": {}
+    },
+    "geo-kort-og-lydbog": {
       "extensionInstances": {}
     }
   },

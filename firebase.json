@@ -17,17 +17,6 @@
         "firebase-debug.*.log",
         "*.local"
       ]
-    },
-    {
-      "source": "geo-kort-og-lydbog",
-      "codebase": "geo-kort-og-lydbog",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "*.local"
-      ]
     }
   ],
   "hosting": {
