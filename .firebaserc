@@ -1,10 +1,10 @@
 {
   "projects": {
-    "default": "geografisk-have-webteam5"
+    "default": "geografisk-have-kort-og-lydbog"
   },
   "targets": {},
   "etags": {
-    "geografisk-have-webteam5": {
+    "geografisk-have-kort-og-lydbog": {
       "extensionInstances": {}
     }
   },

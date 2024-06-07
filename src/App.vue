@@ -25,13 +25,13 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDrmtxQRs_dtjJ_aVAWEIeZQNqx9oDhQ2A",
-  authDomain: "geografisk-have-webteam5.firebaseapp.com" ,
-  projectId: "geografisk-have-webteam5",
-  storageBucket: "geografisk-have-webteam5.appspot.com",
-  messagingSenderId: "350894266794",
-  appId: "1:350894266794:web:8c3d3487b823536f8873d3",
-  measurementId: "G-VDFEE8D343"
+  apiKey: "AIzaSyBrXS9zQOlmv6BfZgrTLHY402zKsE7Zm9c",
+  authDomain: "geo-kort-og-lydbog.firebaseapp.com",
+  projectId: "geo-kort-og-lydbog",
+  storageBucket: "geo-kort-og-lydbog.appspot.com",
+  messagingSenderId: "447721431608",
+  appId: "1:447721431608:web:d793a2a1904c6176cfbccd",
+  measurementId: "G-5N25FFYYME"
 };
 
 console.log(import.meta.env.VUE_APP_FIREBASE_MEASUREMENT_ID)
