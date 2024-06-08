@@ -7,7 +7,6 @@
     <template v-else>
       <router-view />
     </template>
-    
   </div>
   <!-- Bottom nav vises alti' alti' -->
   <BottomNav />
@@ -25,61 +24,60 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBrXS9zQOlmv6BfZgrTLHY402zKsE7Zm9c",
-  authDomain: "geo-kort-og-lydbog.firebaseapp.com",
-  projectId: "geo-kort-og-lydbog",
-  storageBucket: "geo-kort-og-lydbog.appspot.com",
-  messagingSenderId: "447721431608",
-  appId: "1:447721431608:web:d793a2a1904c6176cfbccd",
-  measurementId: "G-5N25FFYYME"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 
-console.log(import.meta.env.VUE_APP_FIREBASE_MEASUREMENT_ID)
-console.log(process.env.VUE_APP_FIREBASE_MEASUREMENT_ID)
+console.log(import.meta.env.VITE_MEASUREMENT_ID)
+console.log(process.env.VITE_MEASUREMENT_ID)
 
 const firebaseApp = initializeApp(firebaseConfig);
-const db  = getFirestore(firebaseApp);
-  const storage = getStorage(firebaseApp);
-  const isLoading = ref(true);
+const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
+const isLoading = ref(true);
 
-  const fetchData = async () => {
+const fetchData = async () => {
   // sætter loading til at være "true"
-    isLoading.value = true;
+  isLoading.value = true;
 
-    try {
+  try {
     // 1. API logik skal insættes her
     // For example, if you're using fetch to make an API call:
     // const response = await fetch('your-api-url');
     // const data = await response.json();
 
     // Remember to replace the above with your actual API call
-    } catch (error) {
-        console.error("Error fetching data: ", error);
-      } finally {
-        // 2. når async/await er færdig sættes isloading tilbage til false så router-view componentet vises.
-        isLoading.value = false;
-    }
-  };
+  } catch (error) {
+    console.error("Error fetching data: ", error);
+  } finally {
+    // 2. når async/await er færdig sættes isloading tilbage til false så router-view componentet vises.
+    isLoading.value = false;
+  }
+};
 
 const router = useRouter();
 const auth = getAuth();
 
 onAuthStateChanged(auth, (user) => {
-
-  if(user) {
-    if(router.currentRoute.value.path !== "/admin"){
+  if (user) {
+    if (router.currentRoute.value.path !== "/admin") {
+      // Do something if needed
     }
   } else {
-    if(router.currentRoute.value.path !== "/login") {
+    if (router.currentRoute.value.path !== "/login") {
+      // Do something if needed
     }
   }
-
-})
+});
 
 onMounted(() => {
   fetchData();
 });
-
 </script>
 
 <style scoped lang="scss">
