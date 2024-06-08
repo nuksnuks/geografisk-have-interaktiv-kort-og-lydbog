@@ -18,10 +18,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # - name: Setup Node.js
-    #   uses: actions/setup-node@v4.0.2
-    #   with:
-    #     node-version: '21.7.2'
+    - name: Setup Node.js
+      uses: actions/setup-node@v4.0.2
+      with:
+         node-version: '20.12.2'
 
     - name: Install dependencies
       run: npm install
@@ -40,10 +40,7 @@ jobs:
         VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
       run: npm run test:unit
 
-      
-
     - name: Deploy to Firebase
-      if: github.ref == 'refs/heads/main' # Only deploy on pushes to the main branch
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       run: firebase deploy --only hosting
