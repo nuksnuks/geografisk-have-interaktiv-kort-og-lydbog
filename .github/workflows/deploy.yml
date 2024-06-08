@@ -1,10 +1,14 @@
 name: Build and Deploy Vite/Vue App to Firebase
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+    push:
+      branches:
+        - main
+        - development
+    pull_request:
+      branches:
+        - main
+        - development
 
 jobs:
   build:
