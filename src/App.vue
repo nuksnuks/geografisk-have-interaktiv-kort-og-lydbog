@@ -74,7 +74,7 @@ onAuthStateChanged(auth, (user) => {
     }
   }
 });
-
+ 
 
 onMounted(() => {
   fetchData();
