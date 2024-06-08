@@ -32,13 +32,7 @@ jobs:
     - name: Run build
       run: npm run build
 
-    - name: Login to Firebase
-      run: firebase login
-
-    - name: initiate firebase
-      run: firebase init
-
     - name: Deploy to Firebase
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-      run: firebase deploy --only hosting
+      run: firebase deploy --only hosting --token $FIREBASE_TOKEN
