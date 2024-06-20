@@ -17,9 +17,9 @@
   </template>
   
   <script setup>
-  import AudioRecorder from 'vue-audio-recorder';
+  import AudioRecorder from 'vue3-mic-recorder';
   
-  const uploadUrl = 'YOUR_API_URL';
+  const uploadUrl = import.meta.env.VITE_FIRE_BASE_STORAGE_BUCKET;
   const attempts = 3;
   const time = 2;
   const headers = {

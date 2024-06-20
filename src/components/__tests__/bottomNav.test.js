@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import BottomNav from '@/components/bottomNav.vue';
+import BottomNav from '@/components/BottomNav.vue';
 import { RouterLinkStub } from '@vue/test-utils'
 
 describe('BottomNav.vue', () => {

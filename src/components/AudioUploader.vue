@@ -66,6 +66,7 @@ async function uploadAudio() {
         const snapshot = await uploadBytes(storageRef, file, metadata);
         const url = await getDownloadURL(snapshot.ref);
         audioURL.value = url;
+        console.log(url);
         console.log('Audio uploaded:', url);
         await saveAudioURLToFirestore(url);
         alert('Audio uploaded successfully!');

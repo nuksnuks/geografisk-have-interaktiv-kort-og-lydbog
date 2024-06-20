@@ -1,43 +1,53 @@
 <template>
   <div>
+    <LoadingSpinner />
     <TopNav />
-    <MapComponent @distance-calculated="handleDistanceCalculation" />
-    <AreaCard :distance="distanceResult" />
+    <MapComponent @distance-calculated="handleDistanceCalculation" @update:info="handleInfoUpdate" />
+    <AreaCard :distance="distanceResult" :selectedArea="selectedAreaInfo" />
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useLocationStore } from '@/stores/location';
-
+import { useLoadingStore } from '@/stores/loading';  // Adjust the path accordingly
 import TopNav from '../components/TopNav.vue';
+
 import MapComponent from '../components/MapComponent.vue';
 import AreaCard from '../components/AreaCard.vue';
 
-import { ref } from 'vue';
-
 const distanceResult = ref(null);
+const locationStore = useLocationStore();
+const loadingStore = useLoadingStore();
 
 function handleDistanceCalculation(distance) {
-    distanceResult.value = distance;
+  distanceResult.value = distance;
 }
 
+const selectedAreaInfo = ref(null);
 
-const locationStore = useLocationStore();
+function handleInfoUpdate(info) {
+  selectedAreaInfo.value = info;
+}
 
 onMounted(() => {
-  locationStore.fetchGardenAreas();
+  loadingStore.startLoading();
+  locationStore.fetchGardenAreas().then(() => {
+    loadingStore.stopLoading();
+  });
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
       locationStore.updateCurrentPosition({ lat: latitude, lng: longitude });
+      loadingStore.stopLoading();  // Stop loading when geolocation is updated
+    }, () => {
+      loadingStore.stopLoading();  // Stop loading even if geolocation fails
     });
+  } else {
+    loadingStore.stopLoading();  // Stop loading if geolocation is not supported
   }
 });
 </script>
 
-<style scoped lang="scss">
-@import '@/styles/global.scss';
-@import 'bootstrap-icons/font/bootstrap-icons.css';
-</style>
+

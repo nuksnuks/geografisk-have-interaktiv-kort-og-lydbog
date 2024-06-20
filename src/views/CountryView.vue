@@ -1,7 +1,10 @@
 <template>
-  <div>  
+  <div>
     <TopNav />
-    <div>
+    
+    <LoadingSpinner />
+
+    <div v-if="country.name">
       <div class="container">
         <img :src="imageUrl" alt="Country image" />
         <h2 class="centered">{{ country.name }}</h2>
@@ -11,7 +14,7 @@
         <button @click="toggleAudioPlayer">
           {{ showAudioPlayer ? 'Skjul lydbog' : 'Afspil lydbog' }}
         </button>
-        <button v-if="country.name">
+        <button>
           <RouterLink 
             :to="{ 
               name: 'plantoverview', 
@@ -30,19 +33,22 @@
 
 <script setup>
 import TopNav from '@/components/TopNav.vue';
-import { ref, onMounted} from 'vue';
+import AudioPlayer from '@/components/AudioPlayer.vue';
+
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getStorage, ref as storageRef, getDownloadURL } from 'firebase/storage';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
-//import { db } from '@/firebase';  
-import AudioPlayer from '@/components/AudioPlayer.vue';
+import { useLoadingStore } from '@/stores/loading';  // Import loading store
+
 const db = getFirestore();
 const route = useRoute();
 const country = ref({ name: '', description: '', audioURL: '' });
 const imageUrl = ref('');
 const audioUrl = ref('');
+const showAudioPlayer = ref(false);
 
- const showAudioPlayer = ref(false);
+const loadingStore = useLoadingStore();
 
 const loadImage = async (imagePath) => {
   try {
@@ -56,9 +62,10 @@ const loadImage = async (imagePath) => {
 
 const fetchCountryData = async (id) => {
   try {
+    loadingStore.startLoading(); // Start loading
     const docRef = doc(db, 'areas', id);
     const docSnap = await getDoc(docRef);
-
+    
     if (docSnap.exists()) {
       country.value = docSnap.data();
       const imagePath = `images/${country.value.name}.png`;
@@ -70,6 +77,8 @@ const fetchCountryData = async (id) => {
     }
   } catch (error) {
     console.error("Error fetching document:", error);
+  } finally {
+    loadingStore.stopLoading(); // Stop loading
   }
 };
 
@@ -115,9 +124,4 @@ a {
   text-align: center;
   color: white;
 }
-
-
-
 </style>
-
-

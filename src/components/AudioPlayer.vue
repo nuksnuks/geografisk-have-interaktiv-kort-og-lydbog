@@ -56,6 +56,7 @@
       </div>
 
       <input 
+          class="full-width-slider"
           type="range" 
           min="0" 
           :max="duration" 
@@ -68,12 +69,18 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 const props = defineProps({
   src: String
 });
 
+if (!props.src) {
+  console.error("AudioPlayer component requires a 'src' prop");
+} else {
+  console.log("AudioPlayer component loaded with src: ", props.src);
+
+}
 const isPlaying = ref(false);
 const audioPlayer = ref(null);
 const isMuted = ref(false);
@@ -117,6 +124,20 @@ const seek = () => {
 
 const duration = computed(() => {
   return audioPlayer.value ? audioPlayer.value.duration : 0;
+});
+
+const updateCurrentTime = () => {
+  currentTime.value = audioPlayer.value.currentTime;
+};
+
+onMounted(() => {
+  audioPlayer.value.addEventListener('timeupdate', updateCurrentTime);
+});
+
+onUnmounted(() => {
+  if (audioPlayer.value) {
+    audioPlayer.value.removeEventListener('timeupdate', updateCurrentTime);
+  }
 });
 
 </script>
@@ -182,6 +203,15 @@ audio::-webkit-media-controls-panel {
 .slider {
   -webkit-appearance: none; 
   width: 100%; 
+  height: 10px; 
+  background: $secondary-color; 
+  border-radius: 5px; 
+}
+
+.full-width-slider {
+  width: 100%; 
+  -webkit-appearance: none; 
+  appearance: none;
   height: 10px; 
   background: $secondary-color; 
   border-radius: 5px; 

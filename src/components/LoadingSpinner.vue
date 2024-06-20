@@ -1,17 +1,19 @@
 <template>
-    <div class="spinner-container" v-if="loading">
+  <div v-if="loading" class="loading-screen">
+    <div class="spinner-container">
       <div class="spinner"></div>
     </div>
+  </div>
   </template>
   
   <script setup>
-  const props = defineProps({
-    loading: {
-      type: Boolean,
-      required: true
-    }
-  });
+  import { useLoadingStore } from '@/stores/loading';
+  import { computed } from 'vue';
+
+    const loadingStore = useLoadingStore();
+    const loading = computed(() => loadingStore.loading);
   </script>
+
   
   <style lang="scss">
   @import '../styles/global.scss';
@@ -21,10 +23,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; 
+    z-index: 99999; 
+    background-color: #61805b;
   }
   
   .spinner {

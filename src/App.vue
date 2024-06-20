@@ -1,68 +1,36 @@
 <template>
   <div>
-    <!-- her bruger jeg conditional rendering til at vise loadingspinner eller router-view-->
-    <template v-if="isLoading">
-      <loading-spinner :loading="true" />
-    </template>
-    <template v-else>
-      <router-view />
-    </template>
+    <LoadingSpinner/>
+    <router-view />
+    <BottomNav />
   </div>
-  <!-- Bottom nav vises alti' alti' -->
-  <BottomNav />
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import LoadingSpinner from '@/components/LoadingSpinner.vue';
-import BottomNav from '@/components/bottomNav.vue';
+
+import { useLoadingStore } from './stores/loading';  // Adjust the path accordingly
+import BottomNav from '@/components/BottomNav.vue';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { useRouter } from 'vue-router';
-
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+import firebaseConfig from './config/firebaseConfig';
+import LoadingSpinner from './components/LoadingSpinner.vue';
 
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
-};
-
-console.log(import.meta.env.VITE_FIREBASE_MEASUREMENT_ID);
-
+// Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
-const isLoading = ref(true);
 
-const fetchData = async () => {
-  // sætter loading til at være "true"
-  isLoading.value = true;
+// Use Pinia store for loading state
+const loadingStore = useLoadingStore();
 
-  try {
-    // 1. API logik skal insættes her
-    // For example, if you're using fetch to make an API call:
-    // const response = await fetch('your-api-url');
-    // const data = await response.json();
-
-    // Remember to replace the above with your actual API call
-  } catch (error) {
-    console.error("Error fetching data: ", error);
-  } finally {
-    // 2. når async/await er færdig sættes isloading tilbage til false så router-view componentet vises.
-    isLoading.value = false;
-  }
-};
-
+// Firebase auth and router
 const router = useRouter();
 const auth = getAuth();
 
+// Monitor auth state
 onAuthStateChanged(auth, (user) => {
   if (user) {
     if (router.currentRoute.value.path !== "/admin") {
@@ -73,12 +41,11 @@ onAuthStateChanged(auth, (user) => {
       // Do something if needed
     }
   }
+  loadingStore.stopLoading();  // Stop loading when auth state is determined
 });
- 
 
-onMounted(() => {
-  fetchData();
-});
+// Start loading initially
+loadingStore.startLoading();
 </script>
 
 <style scoped lang="scss">

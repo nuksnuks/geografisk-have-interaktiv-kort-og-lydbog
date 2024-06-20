@@ -32,6 +32,7 @@ const submitForm = async () => {
 watch([email, password], () => {
   clearErrorMessage();
 });
+ 
 </script>
 
 <style scoped lang="scss">

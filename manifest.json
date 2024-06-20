@@ -4,12 +4,12 @@
     "start_url": "https://geo-kort-og-lydbog.web.app/",
     "icons": [
       {
-        "src": "./geografisk_have_hvid_logo.svg",
+        "src": "./geografiskhave_hvid_logo.svg",
         "sizes": "192x192 512x512", 
         "type": "image/svg+xml"
       }
     ],
-    "theme_color": "#000000",
-    "background_color": "#FFFFFF",
+    "theme_color": "#ffffff",
+    "background_color": "#61805B",
     "display": "standalone"
   }
